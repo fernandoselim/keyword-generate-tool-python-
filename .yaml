@@ -1,2 +1,8 @@
-python:
-  version: 3.9.12  # or any other version you want
+services:
+  - type: web
+    name: my-app
+    env: python
+    plan: starter
+    runtime: python
+    python:
+      version: 3.9.12  # Use a supported version
