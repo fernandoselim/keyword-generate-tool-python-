@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Variation Generator</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --success-color: #22c55e;
+            --info-bg: #eff6ff;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: -0.025em;
+        }
+
+        .info-box {
+            background-color: var(--info-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-box p {
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+
+        .info-box ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+        }
+
+        .info-box li {
+            position: relative;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .info-box li::before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: -1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.875rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .password-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .password-item {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.875rem;
+            word-break: break-all;
+            cursor: pointer;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .password-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+            background-color: #f1f5f9;
+            border-color: var(--primary-color);
+        }
+
+        .copy-message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-md);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.875rem;
+            }
+
+            .password-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Variation Generator</h1>
+        <div class="info-box">
+            <p>This tool generates password variations based on your keywords. It includes:</p>
+            <ul>
+                <li>Capitalization variations</li>
+                <li>Common number combinations</li>
+                <li>Special characters</li>
+                <li>Common years</li>
+                <li>Leetspeak variations (e.g., 'a' → '@')</li>
+                <li>Reversed variations</li>
+                <li>Common prefixes and suffixes</li>
+            </ul>
+        </div>
+        <form method="POST">
+            <div class="form-group">
+                <label for="keywords">Enter your keywords (separated by commas):</label>
+                <input type="text" id="keywords" name="keywords" required placeholder="e.g., password, admin, user">
+            </div>
+
+            <div class="form-group">
+                <label for="variations">Number of variations per keyword:</label>
+                <input type="number" id="variations" name="variations" value="5" min="1" max="20" required>
+            </div>
+
+            <button type="submit">Generate Password Variations</button>
+        </form>
+
+        {% if generated_keywords %}
+            <div class="results">
+                <h3>Generated Password Variations:</h3>
+                <div class="password-grid">
+                    {% for password in generated_keywords %}
+                        <div class="password-item" onclick="copyToClipboard(this)">{{ password }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="copy-message" id="copyMessage">Copied to clipboard!</div>
+
+    <script>
+        function copyToClipboard(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const message = document.getElementById('copyMessage');
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
