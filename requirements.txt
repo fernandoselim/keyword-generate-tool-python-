@@ -1,2 +1,2 @@
-Python==3.13.1
+Python>=3.11.0
 Flask==2.3.3 
