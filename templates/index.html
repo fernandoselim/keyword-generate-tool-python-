@@ -95,7 +95,7 @@
             font-size: 0.875rem;
         }
 
-        input {
+        input[type="text"], input[type="number"] {
             width: 100%;
             padding: 0.75rem 1rem;
             border: 2px solid var(--border-color);
@@ -114,6 +114,33 @@
 
         input::placeholder {
             color: #94a3b8;
+        }
+
+        .variation-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .variation-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .variation-option:hover {
+            border-color: var(--primary-color);
+            background-color: var(--info-bg);
+        }
+
+        .variation-option input[type="radio"] {
+            margin: 0;
         }
 
         button {
@@ -217,6 +244,10 @@
             .password-grid {
                 grid-template-columns: 1fr;
             }
+
+            .variation-options {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -242,8 +273,21 @@
             </div>
 
             <div class="form-group">
-                <label for="variations">Number of variations per keyword:</label>
-                <input type="number" id="variations" name="variations" value="5" min="1" max="20" required>
+                <label>Select number of variations:</label>
+                <div class="variation-options">
+                    <label class="variation-option">
+                        <input type="radio" name="variations" value="20" checked> 20 variations
+                    </label>
+                    <label class="variation-option">
+                        <input type="radio" name="variations" value="50"> 50 variations
+                    </label>
+                    <label class="variation-option">
+                        <input type="radio" name="variations" value="70"> 70 variations
+                    </label>
+                    <label class="variation-option">
+                        <input type="radio" name="variations" value="100"> 100 variations
+                    </label>
+                </div>
             </div>
 
             <button type="submit">Generate Password Variations</button>
@@ -251,7 +295,7 @@
 
         {% if generated_keywords %}
             <div class="results">
-                <h3>Generated Password Variations:</h3>
+                <h3>Generated Password Variations ({{ generated_keywords|length }} total):</h3>
                 <div class="password-grid">
                     {% for password in generated_keywords %}
                         <div class="password-item" onclick="copyToClipboard(this)">{{ password }}</div>
